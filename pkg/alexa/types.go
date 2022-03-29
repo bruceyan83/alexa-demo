@@ -8,7 +8,7 @@ import (
 // smart home对应结构组，详情请查看源链接
 // https://developer.amazon.com/docs/smarthome/smart-home-skill-api-message-reference.html
 
-// Request represents an incoming request from the smart home service
+// Request 基础的request结构体
 type Request struct {
 	Directive RequestDirective `json:"directive"`
 }
@@ -38,10 +38,10 @@ type Scope struct {
 	Token string `json:"token"`
 }
 
-// Response represents a response to a request from the smart home service
+// Response 基础的response结构体
 type Response struct {
-	Context *ResponseContext `json:"context,omitempty"`
 	Event   Event            `json:"event"`
+	Context *ResponseContext `json:"context,omitempty"`
 }
 
 type ResponseContext struct {
@@ -50,21 +50,19 @@ type ResponseContext struct {
 
 // Namespace enums
 const (
-	NamespaceAlexa                = "Alexa"
-	NamespaceAuthorization        = "Alexa.Authorization"
-	NamespaceDiscovery            = "Alexa.Discovery"
-	NamespacePercentageController = "Alexa.PercentageController"
-	NamespacePowerController      = "Alexa.PowerController"
-	NamespaceSceneController      = "Alexa.SceneController"
-	NamespaceTemperatureSensor    = "Alexa.TemperatureSensor"
+	NamespaceAlexa             = "Alexa"
+	NamespaceAuthorization     = "Alexa.Authorization"
+	NamespaceDiscovery         = "Alexa.Discovery"
+	NamespacePowerController   = "Alexa.PowerController"
+	NamespaceTemperatureSensor = "Alexa.TemperatureSensor"
 )
 
 type ContextProperty struct {
-	Namespace                 string          `json:"namespace"`
-	Name                      string          `json:"name"`
-	Value                     json.RawMessage `json:"value"`
-	TimeOfSample              time.Time       `json:"timeOfSample"`
-	UncertaintyInMilliseconds int32           `json:"uncertaintyInMilliseconds"`
+	Namespace                 string      `json:"namespace"`
+	Name                      string      `json:"name"`
+	Value                     interface{} `json:"value"`
+	TimeOfSample              time.Time   `json:"timeOfSample"`
+	UncertaintyInMilliseconds int32       `json:"uncertaintyInMilliseconds"`
 }
 
 type Event struct {
@@ -81,24 +79,17 @@ type ResponseEndpoint struct {
 
 // DisplayCategory enums
 const (
-	DisplayCategoryActivityTrigger   = "ACTIVITY_TRIGGER"
-	DisplayCategoryDoor              = "DOOR"
-	DisplayCategoryExteriorBlind     = "EXTERIOR_BLIND"
-	DisplayCategoryInteriorBlind     = "INTERIOR_BLIND"
 	DisplayCategorySwitch            = "SWITCH"
 	DisplayCategoryTemperatureSensor = "TEMPERATURE_SENSOR"
-	DisplayCategoryOther             = "OTHER"
 )
 
 // Interface enums
 const (
-	InterfacePercentageController = NamespacePercentageController
-	InterfacePowerController      = NamespacePowerController
-	InterfaceSceneController      = NamespaceSceneController
-	InterfaceTemperatureSensor    = NamespaceTemperatureSensor
+	InterfacePowerController   = NamespacePowerController
+	InterfaceTemperatureSensor = NamespaceTemperatureSensor
 )
 
-// EmptyPayload is a payload with no content
+// EmptyPayload 空payload
 var EmptyPayload = json.RawMessage("{}")
 
 type DiscoverPayload struct {
@@ -152,17 +143,10 @@ type AcceptGrantGrantee struct {
 // TemperatureScale enums
 const (
 	TemperatureScaleFahrenheit = "FAHRENHEIT"
+	TemperatureScaleCelsius    = "CELSIUS"
 )
 
 type TemperatureValue struct {
 	Value float32 `json:"value"`
 	Scale string  `json:"scale"`
-}
-
-type SetPercentagePayload struct {
-	Percentage uint8 `json:"percentage"`
-}
-
-type AdjustPercentagePayload struct {
-	PercentageDelta int8 `json:"percentageDelta"`
 }

@@ -46,38 +46,3 @@ func (n *RouteNameSpace) Handle(namespace string, handler Handler) {
 func (n *RouteNameSpace) HandleFunc(namespace string, handler HandlerFunc) {
 	n.Handle(namespace, handler)
 }
-
-//// EndpointMux routes a request based on the requested endpoint
-//type EndpointMux struct {
-//	handlerMap map[string]Handler
-//}
-//
-//// NewEndpointMux creates an EndpointMux
-//func NewEndpointMux() *EndpointMux {
-//	return &EndpointMux{make(map[string]Handler)}
-//}
-//
-//// HandleRequest delegates the request to the handler registered for the request's endpoint.
-//// An error is returned if the endpoint is unregistered.
-//func (e *EndpointMux) HandleRequest(ctx context.Context, req *Request) (*Response, error) {
-//	handler := e.handlerMap[req.Directive.Endpoint.EndpointID]
-//	if handler == nil {
-//		return nil, fmt.Errorf("EndpointMux: unhandled endpoint: %s", req.Directive.Endpoint.EndpointID)
-//	}
-//	resp, err := handler.HandleRequest(ctx, req)
-//	if err != nil {
-//		return resp, fmt.Errorf("EndpointMux: failed to handle %s: %v", req.Directive.Endpoint.EndpointID, err)
-//	}
-//
-//	return resp, nil
-//}
-//
-//// Handle registers a Handler for the endpoint
-//func (e *EndpointMux) Handle(endpoint string, handler Handler) {
-//	e.handlerMap[endpoint] = handler
-//}
-//
-//// HandleFunc registers a HandlerFunc for the namespace
-//func (e *EndpointMux) HandleFunc(endpoint string, handler HandlerFunc) {
-//	e.Handle(endpoint, handler)
-//}
